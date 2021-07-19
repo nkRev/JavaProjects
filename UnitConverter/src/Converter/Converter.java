@@ -2,6 +2,20 @@ package Converter;
 
 import java.util.Scanner;
 
+/**
+ * This is a converter project for Project A. 
+ * 
+ * This program does conversions for cooking measurement (lb to kg, grams to ounces,
+ * and cups to teaspoons), distance measurement (miles to kilometers), and
+ * temperature conversion (fahrenheit to celsius).
+ * 
+ * Originally, I had the menu in my main method but I wanted to implement a "return to main menu" feature for the sub
+ * menus. Which lead to me creating an inputMenu method which calls all the
+ * conversion sub menus and gave the option to return to the main menu. 
+ * 
+ * @author Nicky Kayyarath
+ *
+ */
 public class Converter {
 	static int menuSelection = 0;
 	static boolean finished = true;
@@ -14,7 +28,7 @@ public class Converter {
 	}
 
 	public static void displayMenu() {
-		System.out.println("1. Cooking measurement conversion");
+		System.out.println("1. Cooking measurement conversions");
 		System.out.println("2. Distance conversions");
 		System.out.println("3. Temperature conversions");
 		System.out.println("0 to Quit\n");
@@ -53,17 +67,16 @@ public class Converter {
 
 		do {
 			System.out.println("1. Farenheit to Celcius");
-			System.out.println("0 to go to main menu.\n");
-
+			System.out.println("0 to return to main menu.\n");
 			System.out.print("Your Selection:");
 
 			menuSelection = in.nextInt();
 			switch (menuSelection) {
 			case 1:
-				double farenheit;
+				double fahrenheit;
 				System.out.print("Temperature in Farenheit: ");
-				farenheit = in.nextDouble();
-				System.out.printf("%.2f\u00B0F converted to %.2f\u00B0C\n\n", farenheit, fToCelcius(farenheit));
+				fahrenheit = in.nextDouble();
+				System.out.printf("%.2f\u00B0F converted to %.2f\u00B0C\n\n", fahrenheit, fToCelsius(fahrenheit));
 				break;
 			case 0:
 				System.out.println("Returning...\n");
@@ -81,7 +94,7 @@ public class Converter {
 	public static void distanceMenu(Scanner in) {
 		do {
 			System.out.println("1. Miles to Kilometers");
-			System.out.println("0 to go to main menu.\n");
+			System.out.println("0 to return to main menu.\n");
 
 			System.out.print("Your Selection: ");
 
@@ -111,7 +124,7 @@ public class Converter {
 			System.out.println("1. Cups to Teaspoons");
 			System.out.println("2. Grams to Ounces");
 			System.out.println("3. US Pounds to Kilograms");
-			System.out.println("0 to go to main menu.\n");
+			System.out.println("0 to return to main menu.\n");
 
 			System.out.print("Your Selection: ");
 
@@ -123,7 +136,7 @@ public class Converter {
 				cups = in.nextDouble();
 				System.out.printf("%.2f cups converted to %.2f teaspoons\n\n", cups, cupToTeaspoon(cups));
 				break;
-			case 2: 
+			case 2:
 				double grams;
 				System.out.print("Weight in grams: ");
 				grams = in.nextDouble();
@@ -164,9 +177,9 @@ public class Converter {
 		return (g / 28.35);
 	}
 
-	public static double fToCelcius(double f) {
-		double celcius = 0;
-		celcius = (f - 32) * 5 / 9;
-		return celcius;
+	public static double fToCelsius(double f) {
+		double celsius = 0;
+		celsius = (f - 32) * 5 / 9;
+		return celsius;
 	}
 }
