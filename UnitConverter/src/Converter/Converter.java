@@ -53,7 +53,7 @@ public class Converter {
 
 		do {
 			System.out.println("1. Farenheit to Celcius");
-			System.out.println("0 to go back.\n");
+			System.out.println("0 to go to main menu.\n");
 
 			System.out.print("Your Selection:");
 
@@ -68,7 +68,7 @@ public class Converter {
 			case 0:
 				System.out.println("Returning...\n");
 				finished = true;
-				//inputMenu();
+				inputMenu();
 				break;
 			default:
 				System.out.println("Please enter an integer value that the menu has given.");
@@ -81,7 +81,7 @@ public class Converter {
 	public static void distanceMenu(Scanner in) {
 		do {
 			System.out.println("1. Miles to Kilometers");
-			System.out.println("0 to go back\n");
+			System.out.println("0 to go to main menu.\n");
 
 			System.out.print("Your Selection: ");
 
@@ -111,7 +111,7 @@ public class Converter {
 			System.out.println("1. Cups to Teaspoons");
 			System.out.println("2. Grams to Ounces");
 			System.out.println("3. US Pounds to Kilograms");
-			System.out.println("0 to go back\n");
+			System.out.println("0 to go to main menu.\n");
 
 			System.out.print("Your Selection: ");
 
