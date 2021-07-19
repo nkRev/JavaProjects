@@ -78,6 +78,11 @@ public class Converter {
 
 	}
 
+	/**
+	 * Distance sub menu not sure on why the
+	 * 
+	 * @param in
+	 */
 	public static void distanceMenu(Scanner in) {
 		do {
 			System.out.println("1. Miles to Kilometers");
@@ -139,6 +144,7 @@ public class Converter {
 				System.out.println("Returning...\n");
 				finished = true;
 				inputMenu();
+				break;
 			default:
 				System.out.println("Please enter an integer value that the menu has given.");
 			}
