@@ -28,13 +28,13 @@ public class Converter {
 			menuSelection = in.nextInt();
 			switch (menuSelection) {
 			case 1:
-				cookingConvMenu(in);
+				cookingConvMenu(in); // calls sub menu for cooking conversions
 				break;
 			case 2:
-				distanceMenu(in);
+				distanceMenu(in); // calls sub menu for distance conversions
 				break;
 			case 3:
-				temperatureMenu(in);
+				temperatureMenu(in); // calls sub menu for temperature conversions
 				break;
 			case 0:
 				System.out.println("Terminating...");
@@ -68,7 +68,7 @@ public class Converter {
 			case 0:
 				System.out.println("Returning...\n");
 				finished = true;
-				inputMenu();
+				//inputMenu();
 				break;
 			default:
 				System.out.println("Please enter an integer value that the menu has given.");
@@ -123,7 +123,7 @@ public class Converter {
 				cups = in.nextDouble();
 				System.out.printf("%.2f cups converted to %.2f teaspoons\n\n", cups, cupToTeaspoon(cups));
 				break;
-			case 2:
+			case 2: 
 				double grams;
 				System.out.print("Weight in grams: ");
 				grams = in.nextDouble();
