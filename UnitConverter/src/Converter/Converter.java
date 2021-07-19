@@ -78,11 +78,6 @@ public class Converter {
 
 	}
 
-	/**
-	 * Distance sub menu not sure on why the
-	 * 
-	 * @param in
-	 */
 	public static void distanceMenu(Scanner in) {
 		do {
 			System.out.println("1. Miles to Kilometers");
