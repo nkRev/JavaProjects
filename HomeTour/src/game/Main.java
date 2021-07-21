@@ -35,6 +35,8 @@ public class Main {
 				// e.printStackTrace();
 				System.out.println("Error: your input may be wrong, please try entering your input correctly.\n"
 						+ "Use Command \"help\" to pull up the player guide if you forgot how to play.");
+				in.nextLine();
+
 			}
 		} while (!finished);
 
@@ -145,6 +147,9 @@ public class Main {
 				System.out.println("Thank you for visiting.");
 				finished = true;
 				break;
+			default:
+
+				break;
 			}
 		}
 	}
@@ -179,6 +184,7 @@ public class Main {
 			return true;
 		case "quit":
 			return true;
+
 		}
 		return false;
 	}
@@ -189,7 +195,15 @@ public class Main {
 	private static void changeRoom(String[] command, Player p) {
 		try {
 			p.setCurrentRoom(p.getCurrentRoom().getExit(command[1]));
-			p.getCurrentRoom().toString();
+			// if the CURRENT room is not null
+			if (p.getCurrentRoom() != null) {
+				// print toString for getCurrentRoom
+				p.getCurrentRoom().toString();
+			} else {
+				// room does not exist
+				System.out.println("The room you wanted to go into does not exist.");
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

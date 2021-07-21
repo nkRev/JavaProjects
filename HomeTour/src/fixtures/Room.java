@@ -2,11 +2,10 @@ package fixtures;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Room extends Fixture {
 	// items are held in ArrayList since number of items could be nth number
-	private List<Item> items = new ArrayList<>();
+	private ArrayList<Item> items = new ArrayList<>();
 
 	/**********************************************************************************
 	 * The implementation of a HashMap is based off of the idea of each direction
@@ -29,7 +28,7 @@ public class Room extends Fixture {
 	}
 
 	// get items in current player's ArrayList
-	public List<Item> getItems() {
+	public ArrayList<Item> getItems() {
 		return items;
 	}
 
