@@ -16,7 +16,7 @@ public class Main {
 		RoomManager rm = new RoomManager();
 		rm.init();
 
-		// initialize Player
+		// initialize Player, set currentRoom by getting startingRoom
 		Player p = new Player();
 		p.setCurrentRoom(rm.getStartingRoom());
 
@@ -24,21 +24,28 @@ public class Main {
 		System.out.println(howTo());
 
 		// initiate loop
-		try {
 		do {
-			printRoom(p);
-			String[] command = collectInput();
-			parse(command, p);
-
+			// handle user input exception
+			try {
+				printRoom(p);
+				// retrieve LOWERCASE splitLine[] from collectInput
+				String[] command = collectInput();
+				parse(command, p);
+			} catch (NullPointerException e) {
+				// e.printStackTrace();
+				System.out.println("Error: your input may be wrong, please try entering your input correctly.\n"
+						+ "Use Command \"help\" to pull up the player guide if you forgot how to play.");
+			}
 		} while (!finished);
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("something went wrong...");
-		}
-		}
 
+	}
+
+	// ****************Print CURRENT room description and item names into
+	// rooms*******************************
 	private static void printRoom(Player p) {
+		// get CURRENT room description (name, short description and long description)
 		String room = p.getCurrentRoom().toString();
+		// get number of items in current room
 		int roomItems = p.getCurrentRoom().getItems().size();
 		System.out.println(room);
 		// if items are in room
@@ -49,7 +56,8 @@ public class Main {
 
 	}
 
-	// prints exits + descriptions
+	// ***************************Retrieve possible Exits and Room Name. Then
+	// Prints*************************************
 	private static void printExits(Player p) {
 		System.out.println("Room Exits: ");
 		// entrySet allows you to create a "toString()"(set) out of the same elements in
@@ -59,23 +67,26 @@ public class Main {
 		}
 	}
 
-	// prints room inventory
+	// ***************************prints room
+	// inventory*******************************************
 	private static void printRoomInventory(Player p) {
 		System.out.println("Room Items: ");
 		int size = p.getCurrentRoom().getItems().size();
 		for (int i = 0; i < size; i++) {
 			Item item = p.getCurrentRoom().getItems().get(i);
-			System.out.println(item.getShortDescription());
+			System.out.println(item.getName());
 		}
 	}
 
-	// guide on how to play
+	/******************************************************************************
+	 * Player's Guide
+	 */
 	private static String howTo() {
-		return String.format("Player's Guide\n" 
-						+ "go (direction): move around the house based on the direction given.\n"
+		return String
+				.format("Player's Guide\n" + "go (direction): move around the house based on the direction given.\n"
 						+ "\t For instance moving to the next room is go north.\n"
 						+ "take (item name): pick up an item and add to inventory.\n"
-						+ "inspect (item name): interact with items in the room.\n"
+						+ "inspect (item name): interact with items in the room.\n" + "items: open your inventory"
 						+ "help: if you forgotten how to play, type \"help\".\n" + "quit: type quit to quit.\n");
 	}
 
@@ -85,13 +96,16 @@ public class Main {
 	 * @return splitLine: String array that the user entered.
 	 */
 	private static String[] collectInput() {
-		System.out.print(">>");
-		String input = in.nextLine();
+		System.out.print(">> ");
+		// to ensure all of player's input is lower case before it goes into splitLine[]
+		String input = in.nextLine().toLowerCase();
 		String[] splitLine = input.split(" ");
 		return splitLine;
 	}
 
-	// reprompt
+	/************************************************
+	 * re-prompt, re-collect, and re-parse input
+	 */
 	private static void reprompt(Player p) {
 		// if room has items in it print items
 		if (p.getCurrentRoom().getItems().size() > 0) {
@@ -110,13 +124,14 @@ public class Main {
 			switch (command[0]) {
 			case "go":
 				changeRoom(command, p);
+				reprompt(p);
 				break;
 			case "take":
 				steal(p, p.getCurrentRoom().getItems().get(0));
 				reprompt(p);
 				break;
 			case "inspect":
-				interaction(p);
+				inspect(p);
 				reprompt(p);
 				break;
 			case "items":
@@ -127,7 +142,7 @@ public class Main {
 				System.out.println(howTo());
 				reprompt(p);
 			case "quit":
-				System.out.println("Thanks for visiting.");
+				System.out.println("Thank you for visiting.");
 				finished = true;
 				break;
 			}
@@ -135,7 +150,7 @@ public class Main {
 	}
 
 	// player interaction
-	private static void interaction(Player p) {
+	private static void inspect(Player p) {
 		// the idea behind this is to get the current room player is in, get items in
 		// inventory, then access toString from fixture
 		System.out.println(p.getCurrentRoom().getItems().toString());
@@ -168,8 +183,16 @@ public class Main {
 		return false;
 	}
 
+	// to change current room,
+	// the next room's direction should be specified and retrieved
+	// then set
 	private static void changeRoom(String[] command, Player p) {
-		p.setCurrentRoom(p.getCurrentRoom().getExit(command[1]));
+		try {
+			p.setCurrentRoom(p.getCurrentRoom().getExit(command[1]));
+			p.getCurrentRoom().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	// player removes item from current room and adds to inventory
@@ -177,4 +200,5 @@ public class Main {
 		p.addToInventory(item);
 		p.getCurrentRoom().rmItem(item);
 	}
+
 }

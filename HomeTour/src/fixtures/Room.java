@@ -54,7 +54,7 @@ public class Room extends Fixture {
 	 * To be able to retrieve my exits while Implementing my HashMap I have to be
 	 * able to specify a String direction(key), and my value Room(object)
 	 * 
-	 * @return exits HashMap
+	 * @return exits in HashMap
 	 *************************************************************************************
 	 */
 	public HashMap<String, Room> getExits() {

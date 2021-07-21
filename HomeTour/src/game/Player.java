@@ -39,7 +39,7 @@ public class Player {
 	}
 
 	/**
-	 * getter for item inventory
+	 * getter for List<Item> inventory
 	 * 
 	 * @return your inventory
 	 */
