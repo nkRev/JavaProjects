@@ -50,7 +50,7 @@ abstract class Fixture {
 
 	@Override
 	public String toString() {
-		return String.format("Name: %s\nDescription: %s, %s\n", name, shortDescription, longDescription);
+		return String.format("Name: %s\nDescription: %s, \n%s\n", name, shortDescription, longDescription);
 	}
 
 }

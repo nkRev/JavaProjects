@@ -1,7 +1,7 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 import fixtures.Item;
 import fixtures.Room;
@@ -9,7 +9,7 @@ import fixtures.Room;
 public class Player {
 	private Room currentRoom;
 	// initialize inventory
-	private List<Item> inventory = new ArrayList<>();
+	private ArrayList<Item> inventory = new ArrayList<>();
 
 	/**
 	 * Getter for current room
@@ -39,11 +39,11 @@ public class Player {
 	}
 
 	/**
-	 * getter for List<Item> inventory
+	 * getter for ArrayList<Item> inventory
 	 * 
 	 * @return your inventory
 	 */
-	public List<Item> getInventory() {
+	public ArrayList<Item> getInventory() {
 		return inventory;
 	}
 

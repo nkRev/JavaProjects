@@ -1,6 +1,7 @@
 package game;
 
-import java.util.HashMap;
+
+import java.util.Map;
 import java.util.Scanner;
 
 import fixtures.Item;
@@ -10,10 +11,10 @@ public class Main {
 	// boolean for loop
 	private static boolean finished = true;
 	public static Scanner in = new Scanner(System.in);
-
+	private static RoomManager rm = new RoomManager();
 	public static void main(String[] args) {
-		// initialize RoomManager and create rooms
-		RoomManager rm = new RoomManager();
+		// initialize RoomManager and build house w/ items
+		
 		rm.init();
 
 		// initialize Player, set currentRoom by getting startingRoom
@@ -32,18 +33,17 @@ public class Main {
 				String[] command = collectInput();
 				parse(command, p);
 			} catch (NullPointerException e) {
-				// e.printStackTrace();
+				e.printStackTrace();
 				System.out.println("Error: your input may be wrong, please try entering your input correctly.\n"
-						+ "Use Command \"help\" to pull up the player guide if you forgot how to play.");
-				in.nextLine();
+						+ "Use Command \"help\" to pull up the Player's Guide if you forgot how to play.");
 
+				continue;
 			}
 		} while (!finished);
 
 	}
 
-	// ****************Print CURRENT room description and item names into
-	// rooms*******************************
+	// ******Print CURRENT room description and item names into rooms*******
 	private static void printRoom(Player p) {
 		// get CURRENT room description (name, short description and long description)
 		String room = p.getCurrentRoom().toString();
@@ -58,19 +58,17 @@ public class Main {
 
 	}
 
-	// ***************************Retrieve possible Exits and Room Name. Then
-	// Prints*************************************
+	// ************Retrieve possible Exits and Room Name. Then Prints***************
 	private static void printExits(Player p) {
 		System.out.println("Room Exits: ");
 		// entrySet allows you to create a "toString()"(set) out of the same elements in
 		// the HashMap and returns the set
-		for (HashMap.Entry<String, Room> e : p.getCurrentRoom().getExits().entrySet()) {
+		for (Map.Entry<String, Room> e : p.getCurrentRoom().getExits().entrySet()) {
 			System.out.println(e.getKey() + ": " + e.getValue().getName());
 		}
 	}
 
-	// ***************************prints room
-	// inventory*******************************************
+	// *******prints room inventory*******
 	private static void printRoomInventory(Player p) {
 		System.out.println("Room Items: ");
 		int size = p.getCurrentRoom().getItems().size();
@@ -80,7 +78,7 @@ public class Main {
 		}
 	}
 
-	/******************************************************************************
+	/**********************************
 	 * Player's Guide
 	 */
 	private static String howTo() {
@@ -89,7 +87,7 @@ public class Main {
 						+ "\t For instance moving to the next room is go north.\n"
 						+ "take (item name): pick up an item and add to inventory.\n"
 						+ "inspect (item name): interact with items in the room.\n" + "items: open your inventory"
-						+ "help: if you forgotten how to play, type \"help\".\n" + "quit: type quit to quit.\n");
+						+ "help: if you forgotten how to play, type \"help\".\n" + "quit: type \"quit\" to quit.\n");
 	}
 
 	/**
@@ -110,12 +108,15 @@ public class Main {
 	 */
 	private static void reprompt(Player p) {
 		// if room has items in it print items
-		if (p.getCurrentRoom().getItems().size() > 0) {
-			printRoomInventory(p);
+		if (p.getCurrentRoom() != null) {
+			if (p.getCurrentRoom().getItems().size() > 0) {
+				printRoomInventory(p);
+			}
+
+			printExits(p);
+			String[] command = collectInput();
+			parse(command, p);
 		}
-		printExits(p);
-		String[] command = collectInput();
-		parse(command, p);
 	}
 
 	// make commands happen
@@ -125,6 +126,7 @@ public class Main {
 			// then have player do it
 			switch (command[0]) {
 			case "go":
+			case "move":
 				changeRoom(command, p);
 				reprompt(p);
 				break;
@@ -137,6 +139,7 @@ public class Main {
 				reprompt(p);
 				break;
 			case "items":
+			case "inventory":
 				displayInventory(p);
 				reprompt(p);
 				break;
@@ -144,11 +147,12 @@ public class Main {
 				System.out.println(howTo());
 				reprompt(p);
 			case "quit":
+			case "leave":
 				System.out.println("Thank you for visiting.");
 				finished = true;
 				break;
 			default:
-
+				System.out.println("Use Command \"help\" to pull up the Player's Guide if you forgot how to play.");
 				break;
 			}
 		}
@@ -163,50 +167,41 @@ public class Main {
 
 	// display inventory from ArrayList
 	private static void displayInventory(Player p) {
+		System.out.println("************Player's Inventory****************");
 		for (int i = 0; i < p.getInventory().size(); i++) {
 			System.out.println(p.getInventory().get(i).getName());
 		}
+		System.out.println();
 	}
 
 	// checks if command is valid.
 	private static boolean cIsValid(String[] command) {
 
-		switch (command[0]) {
-		case "go":
-			return true;
-		case "take":
-			return true;
-		case "inspect":
-			return true;
-		case "items":
-			return true;
-		case "help":
-			return true;
-		case "quit":
-			return true;
-
+		String[] validCommands = { "go", "move", "take", "inspect", "inventory", "items", "help", "quit", "leave" };
+		for (int i = 0; i < validCommands.length; i++) {
+			if (validCommands[i].equalsIgnoreCase(command[0])) {
+				return true;
+			}
 		}
 		return false;
 	}
 
-	// to change current room,
-	// the next room's direction should be specified and retrieved
-	// then set
+	/**
+	 * to change current room, the next room's direction should be specified and
+	 * retrieved, then set
+	 * 
+	 * @param command
+	 * @param p
+	 */
 	private static void changeRoom(String[] command, Player p) {
-		try {
-			p.setCurrentRoom(p.getCurrentRoom().getExit(command[1]));
-			// if the CURRENT room is not null
-			if (p.getCurrentRoom() != null) {
-				// print toString for getCurrentRoom
-				p.getCurrentRoom().toString();
-			} else {
-				// room does not exist
-				System.out.println("The room you wanted to go into does not exist.");
-			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		p.setCurrentRoom(p.getCurrentRoom().getExit(command[1]));
+		// if the CURRENT room is not null
+		if (p.getCurrentRoom() != null) {
+			// print toString for getCurrentRoom
+			p.getCurrentRoom().toString();
 		}
+
 	}
 
 	// player removes item from current room and adds to inventory

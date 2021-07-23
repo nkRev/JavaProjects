@@ -27,6 +27,7 @@ public class RoomManager {
 		Room kitchen = new Room("The kitchen", "A large kitchen with a floating island in the center",
 				"The large kitchen has a refrigerator to the left, a pantry to the right, \nand in the center sits a large island that has a six burner stove in the center with a ventilation hood above.\n"
 						+ "There are also two ovens on the opposite end of the stove");
+		Room garage = new Room("The garage", "This is a two car garage.", "long description..... tools, etc..");
 
 		/******************************************************************
 		 * item creation
@@ -35,27 +36,27 @@ public class RoomManager {
 		Item painting = new Item("Nimphee Painting", "This painting was drawn by Claude Monet in 1926.",
 				"The Nimphee was regarded as one of the greatest paintings of all time. It displays Monet's two greatest achievements: his garden and the paintings they inspired."
 						+ "The Nimphee displays an arching bridge going over a river with lily pads, the background is covered by green shrubs and trees.");
-		
+
 		Item silverware = new Item("Silverware", "Vintage Grand Baroque silverware",
 				"To the left of the porcelain plate lies a dinner fork and salad fork."
 						+ " To the right sits a soup spoon and a tablespoon. Lastly above the porcelain plate sits a butter knife and dessert spoon.");
-		
+
 		Item refrigerator = new Item("Refigerator", "A large refrigerator",
 				"The refrigerator holds all of the food in the house that needs to be at 40\u00B0F any higher the food would be prone to spoiling. "
 						+ "As we peer inside of the refrigerator we see eggs, milk, carrots, lettuice, cheese, and a leftover slice of pizza.");
-		
+
 		Item pizza = new Item("A slice of leftover pizza", "A slice of extra cheese pizza from Domino's",
 				"It looks like someone ordered Domino's Pizza the other night and almost finished a whole large box of pizza with extra cheese on it.\n"
 						+ "Although it is cold, the cheese still has its slight char to it.");
-		
+
 		Item book = new Item("A book", "Big Java Late Objects.",
 				"A textbok on Java programming concepts by Cay Horstman. The book appears to only be used a few times. \nIt's possible that this person prefers online resources as opposed to textbooks");
-		
+		Item tools = new Item("a 102 piece toolset", "From harbor freight", "long description.........");
 
 		/*************************************************************************
 		 * Building home layout
 		 * 
-		 * each room has (an) exit(s) and each certain rooms will have items added
+		 * each room has (an) exit(s) and certain rooms will have items added
 		 */
 		foyer.setExits("north", study);
 		foyer.setExits("south", diningRoom);
@@ -69,13 +70,17 @@ public class RoomManager {
 
 		diningRoom.setExits("west", kitchen);
 		diningRoom.setExits("north", foyer);
+		diningRoom.setExits("east", garage);
 		diningRoom.addItem(painting);
 		diningRoom.addItem(silverware);
 
 		study.setExits("south", foyer);
 		study.setExits("west", kitchen);
 		study.addItem(book);
-
+		
+		garage.setExits("west", diningRoom);
+		garage.addItem(tools);
+		
 		// Player starts here.
 		setStartingRoom(foyer);
 	}
